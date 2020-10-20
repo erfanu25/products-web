@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../_services/dashboard.service';
+import {UserService} from '../_services/user.service';
+import {RULE} from '../_services/rule_enum.model';
 
 @Component({
   selector: 'app-board-admin',
@@ -8,8 +10,11 @@ import { DashboardService } from '../_services/dashboard.service';
 })
 export class BoardAdminComponent implements OnInit {
   content = '';
+  users: any[];
+  rule = RULE;
 
-  constructor(private dashboardService: DashboardService) { }
+  constructor(private dashboardService: DashboardService,
+              private userService: UserService) { }
 
   ngOnInit() {
     this.dashboardService.getAdminBoard().subscribe(
@@ -20,5 +25,9 @@ export class BoardAdminComponent implements OnInit {
         this.content = JSON.parse(err.error).message;
       }
     );
+    this.userService.getAllUser().subscribe(
+      data => {
+        this.users = data;
+      });
   }
 }
