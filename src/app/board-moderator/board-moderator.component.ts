@@ -12,7 +12,7 @@ export class BoardModeratorComponent implements OnInit {
   constructor(private dashboardService: DashboardService) { }
 
   ngOnInit() {
-    this.dashboardService.getModeratorBoard().subscribe(
+    this.dashboardService.getModeratorAccess().subscribe(
       data => {
         this.content = data;
       },

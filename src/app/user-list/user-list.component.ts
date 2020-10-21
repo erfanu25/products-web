@@ -2,22 +2,23 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../_services/dashboard.service';
 import {UserService} from '../_services/user.service';
 import {RULE} from '../_services/rule_enum.model';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-board-admin',
-  templateUrl: './board-admin.component.html',
-  styleUrls: ['./board-admin.component.css']
+  templateUrl: './user-list.component.html'
 })
-export class BoardAdminComponent implements OnInit {
+export class UserListComponent implements OnInit {
   content = '';
   users: any[];
   rule = RULE;
 
   constructor(private dashboardService: DashboardService,
+              private router: Router,
               private userService: UserService) { }
 
   ngOnInit() {
-    this.dashboardService.getAdminBoard().subscribe(
+    this.dashboardService.getAdminAccess().subscribe(
       data => {
         this.content = data;
       },
@@ -30,4 +31,11 @@ export class BoardAdminComponent implements OnInit {
         this.users = data;
       });
   }
+
+  editUser(user) {
+    this.router.navigate(['updateUser', user.id], {
+      queryParams: { username: user.username, email: user.email, roles: user.roles[0].name }
+    });
+  }
+
 }

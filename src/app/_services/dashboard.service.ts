@@ -15,15 +15,15 @@ export class DashboardService {
     return this.http.get(API_URL + 'all', { responseType: 'text' });
   }
 
-  getUserBoard(): Observable<any> {
+  getUserAccess(): Observable<any> {
     return this.http.get(API_URL + 'user', { responseType: 'text' });
   }
 
-  getModeratorBoard(): Observable<any> {
+  getModeratorAccess(): Observable<any> {
     return this.http.get(API_URL + 'mod', { responseType: 'text' });
   }
 
-  getAdminBoard(): Observable<any> {
+  getAdminAccess(): Observable<any> {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
 }

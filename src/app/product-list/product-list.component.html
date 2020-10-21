@@ -1,0 +1,30 @@
+<div class="container" >
+  <div *ngIf="content !== 'Error: Unauthorized'">
+    <p-table [value]="products" #dt dataKey="id" [globalFilterFields]="['productName']" styleClass="p-datatable-customers">
+      <ng-template pTemplate="caption">
+        <div class="table-header">
+          List of Products
+          <span  style="margin-left: 30px">
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Search by Product Name" />
+        </span>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="header">
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Creation Date</th>
+          <th *ngIf="moderatorAccess !== 'Forbidden'">Action</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{product.productName}}</td>
+          <td>{{product.price}}</td>
+          <td>{{product.createDate}}</td>
+          <td *ngIf="moderatorAccess !== 'Forbidden'"><p-button label="Edit" (onClick)="editProduct(product)"></p-button></td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>

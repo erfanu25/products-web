@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../_services/auth.service';
 import {ActivatedRoute} from '@angular/router';
 import {UserService} from '../_services/user.service';
+import {ProductService} from '../_services/product.service';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: 'app-product',
+  templateUrl: './product.component.html',
+  styleUrls: ['./product.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class ProductComponent implements OnInit {
   form: any = {};
   id: string;
   isSuccessful = false;
@@ -16,35 +17,22 @@ export class RegisterComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService,
-              private userService: UserService,
+  constructor(private productService: ProductService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.id = location.pathname.split('/')[2];
 
     this.route.queryParams.subscribe(queryParams => {
-      this.form.username = queryParams.username;
-      this.form.email = queryParams.email;
-      switch (queryParams.roles) {
-        case 'ROLE_USER':
-          this.form.role = '';
-          break;
-        case 'ROLE_MODERATOR':
-          this.form.role = 'mod';
-          break;
-        case 'ROLE_ADMIN':
-          this.form.role = 'admin';
-          break;
-        default:
-          break;
-      }
+      this.form.productName = queryParams.productName;
+      this.form.price = queryParams.price;
     });
   }
 
   onSubmit() {
+    this.form.createDate = new Date();
     if (!this.id) {
-      this.authService.register(this.form).subscribe(
+      this.productService.createProduct(this.form).subscribe(
         data => {
           this.isSuccessful = true;
           this.isSignUpFailed = false;
@@ -56,7 +44,7 @@ export class RegisterComponent implements OnInit {
       );
     } else {
       this.form.id = this.id;
-      this.userService.update(this.form).subscribe(
+      this.productService.updateProduct(this.form).subscribe(
         data => {
           this.isUpdateSuccessful = true;
           this.isSignUpFailed = false;

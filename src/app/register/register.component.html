@@ -6,7 +6,7 @@
       class="profile-img-card"
     />
     <form
-      *ngIf="!isSuccessful"
+      *ngIf="!isSuccessful && !isUpdateSuccessful"
       name="form"
       (ngSubmit)="f.form.valid && onSubmit()"
       #f="ngForm"
@@ -53,12 +53,10 @@
         </div>
       </div>
       <div class="form-group">
-        <label for="cars">Role:</label>
+        <label for="role">Role:</label>
         <select class="form-control"
-                name="email"
+                name="role"
                 [(ngModel)]="form.role"
-                required
-                email
                 #role="ngModel">
           <option value="admin">ADMIN</option>
           <option value="mod">SUPERVISOR</option>
@@ -84,7 +82,8 @@
         </div>
       </div>
       <div class="form-group">
-        <button class="btn btn-primary btn-block">Sign Up</button>
+        <button class="btn btn-primary btn-block" *ngIf="!id">Create User</button>
+        <button class="btn btn-primary btn-block" *ngIf="id">Update User</button>
       </div>
 
       <div class="alert alert-warning" *ngIf="f.submitted && isSignUpFailed">
@@ -93,7 +92,10 @@
     </form>
 
     <div class="alert alert-success" *ngIf="isSuccessful">
-      Your registration is successful!
+      New User Created successfully!
+    </div>
+    <div class="alert alert-success" *ngIf="isUpdateSuccessful">
+      User updated successfully!
     </div>
   </div>
 </div>
